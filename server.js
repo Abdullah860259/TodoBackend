@@ -51,7 +51,10 @@ const cors = require("cors");
 const { parse } = require("dotenv");
 
 app.use(cors({
-    origin: "http://localhost:5174", // your frontend URL
+    origin: [
+        "http://localhost:5174",
+        "https://your-frontend.vercel.app"
+    ],
     credentials: true, // allow cookies to be sent
 }));
 
@@ -209,4 +212,4 @@ app.post("/important/:id", islogged, async (req, res) => {
         console.error(error);
     }
 })
-app.listen(5173,'0.0.0.0');
+app.listen(5173, '0.0.0.0');
