@@ -53,7 +53,7 @@ const { parse } = require("dotenv");
 app.use(cors({
     origin: [
         "http://localhost:5174",
-        "https://your-frontend.vercel.app"
+        "https://todo-three-omega-96.vercel.app"
     ],
     credentials: true, // allow cookies to be sent
 }));
