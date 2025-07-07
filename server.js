@@ -34,11 +34,13 @@ app.use((req, res, next) => {
 });
 app.use(
     cors({
-        origin: "http://localhost:5174", 
+        origin: ["http://localhost:5174", "https://todoabdullah.vercel.app"],
         credentials: true,
         methods: ["GET", "POST", "PUT", "DELETE"],
+        allowedHeaders: ["Content-Type", "Authorization"],
     })
 );
+app.options("*", cors()); // Handles preflight
 
 
 app.use(helmet());
