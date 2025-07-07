@@ -34,7 +34,7 @@ app.use((req, res, next) => {
 });
 app.use(
     cors({
-        origin: "https://todoabdullah.vercel.app", 
+        origin: "http://localhost:5174", 
         credentials: true,
         methods: ["GET", "POST", "PUT", "DELETE"],
     })
