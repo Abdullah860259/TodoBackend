@@ -34,7 +34,7 @@ app.use((req, res, next) => {
 });
 app.use(
     cors({
-        origin: (origin, callback) => callback(null, true), 
+        origin: ["http://localhost:5174","https://todoabdullah.vercel.app"], 
         credentials: true,
         methods: ["GET", "POST", "PUT", "DELETE"],
     })
