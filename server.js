@@ -1,4 +1,4 @@
-require("dotenv").config();
+const dotenv = require("dotenv").config();
 const cors = require("cors");
 const jwtSecret = process.env.JWT_SECRET;
 const express = require("express");
@@ -28,36 +28,25 @@ const islogged = async (req, res, next) => {
         }
     }
 }
+app.use((req, res, next) => {
+    console.log(`Incoming request: ${req.method} ${req.url}`);
+    next();
+});
 app.use(
     cors({
-        origin: true, // Reflect request origin
+        origin: (origin, callback) => callback(null, true), 
         credentials: true,
+        methods: ["GET", "POST", "PUT", "DELETE"],
     })
 );
 
-app.options("*", cors({
-    origin: [
-        "http://localhost:5174",
-        "https://todo-three-omega-96.vercel.app"
-    ],
-    credentials: true
-}));
 
-app.use(
-    helmet({
-        contentSecurityPolicy: false, // Disable CSP
-        crossOriginEmbedderPolicy: false, // Allow CORS resources
-    })
-);
+app.use(helmet());
 
 
 app.use(cookieParser());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use((req, res, next) => {
-    console.log(`Incoming request: ${req.method} ${req.url}`);
-    next();
-});
 
 
 
