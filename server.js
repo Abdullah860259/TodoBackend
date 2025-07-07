@@ -30,13 +30,11 @@ const islogged = async (req, res, next) => {
 }
 app.use(
     cors({
-        origin: [
-            "http://localhost:5174",
-            "https://todo-three-omega-96.vercel.app",
-        ],
+        origin: true, // Reflect request origin
         credentials: true,
     })
 );
+
 app.options("*", cors({
     origin: [
         "http://localhost:5174",
@@ -44,21 +42,15 @@ app.options("*", cors({
     ],
     credentials: true
 }));
+const helmet = require("helmet");
+
 app.use(
     helmet({
-        crossOriginEmbedderPolicy: false,
-        contentSecurityPolicy: {
-            directives: {
-                defaultSrc: ["'self'"],
-                scriptSrc: ["'self'", "'unsafe-inline'", "https://todo-three-omega-96.vercel.app"],
-                styleSrc: ["'self'", "'unsafe-inline'", "https://fonts.googleapis.com"],
-                imgSrc: ["'self'", "data:", "https://todo-three-omega-96.vercel.app"],
-                fontSrc: ["'self'", "https://fonts.gstatic.com"],
-                connectSrc: ["'self'", "https://todoapp1.up.railway.app"],
-            },
-        },
+        contentSecurityPolicy: false, // Disable CSP
+        crossOriginEmbedderPolicy: false, // Allow CORS resources
     })
 );
+
 
 app.use(cookieParser());
 app.use(express.json());
