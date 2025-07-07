@@ -1,4 +1,5 @@
 require("dotenv").config();
+const cors = require("cors");
 const jwtSecret = process.env.JWT_SECRET;
 const express = require("express");
 const User = require("./models/userSchema");
@@ -27,16 +28,31 @@ const islogged = async (req, res, next) => {
         }
     }
 }
+app.use(cors({
+    origin: [
+        "http://localhost:5174",
+        "https://todo-three-omega-96.vercel.app"
+    ],
+    credentials: true, // allow cookies to be sent
+}));
+app.options("*", cors());
 app.use(
     helmet.contentSecurityPolicy({
         directives: {
-            defaultSrc: ["'none'"],
-            fontSrc: ["'self'", "data:"],
-            styleSrc: ["'self'"],
-            scriptSrc: ["'self'"],
-            connectSrc: ["'self'", "http://localhost:5174"],
-            imgSrc: ["'self'"],
-        },
+            defaultSrc: ["'self'"],
+            connectSrc: [
+                "'self'",
+                "http://localhost:5174",
+                "https://todo-three-omega-96.vercel.app",
+                "https://todoapp1.up.railway.app",
+                "https://accounts.google.com",       // ✅ Google login
+                "https://www.googleapis.com"         // ✅ Google API
+            ],
+            fontSrc: ["'self'", "https:", "data:"],
+            styleSrc: ["'self'", "'unsafe-inline'", "https:"],
+            scriptSrc: ["'self'", "'unsafe-inline'", "https:"],
+            imgSrc: ["'self'", "data:"],
+        }
     })
 );
 
@@ -47,16 +63,7 @@ app.use((req, res, next) => {
     console.log(`Incoming request: ${req.method} ${req.url}`);
     next();
 });
-const cors = require("cors");
-const { parse } = require("dotenv");
 
-app.use(cors({
-    origin: [
-        "http://localhost:5174",
-        "https://todo-three-omega-96.vercel.app"
-    ],
-    credentials: true, // allow cookies to be sent
-}));
 
 
 app.post("/register", async (req, res) => {
@@ -212,4 +219,7 @@ app.post("/important/:id", islogged, async (req, res) => {
         console.error(error);
     }
 })
-app.listen(5173, '0.0.0.0');
+const PORT = process.env.PORT || 5173;
+app.listen(PORT, '0.0.0.0', () => {
+    console.log(`Server running on port ${PORT}`);
+});
