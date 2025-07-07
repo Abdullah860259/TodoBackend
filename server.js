@@ -42,7 +42,6 @@ app.options("*", cors({
     ],
     credentials: true
 }));
-const helmet = require("helmet");
 
 app.use(
     helmet({
