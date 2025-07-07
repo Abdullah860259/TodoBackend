@@ -28,31 +28,35 @@ const islogged = async (req, res, next) => {
         }
     }
 }
-app.use(cors({
+app.use(
+    cors({
+        origin: [
+            "http://localhost:5174",
+            "https://todo-three-omega-96.vercel.app",
+        ],
+        credentials: true,
+    })
+);
+app.options("*", cors({
     origin: [
         "http://localhost:5174",
         "https://todo-three-omega-96.vercel.app"
     ],
-    credentials: true, // allow cookies to be sent
+    credentials: true
 }));
-app.options("*", cors());
 app.use(
-    helmet.contentSecurityPolicy({
-        directives: {
-            defaultSrc: ["'self'"],
-            connectSrc: [
-                "'self'",
-                "http://localhost:5174",
-                "https://todo-three-omega-96.vercel.app",
-                "https://todoapp1.up.railway.app",
-                "https://accounts.google.com",       // ✅ Google login
-                "https://www.googleapis.com"         // ✅ Google API
-            ],
-            fontSrc: ["'self'", "https:", "data:"],
-            styleSrc: ["'self'", "'unsafe-inline'", "https:"],
-            scriptSrc: ["'self'", "'unsafe-inline'", "https:"],
-            imgSrc: ["'self'", "data:"],
-        }
+    helmet({
+        crossOriginEmbedderPolicy: false,
+        contentSecurityPolicy: {
+            directives: {
+                defaultSrc: ["'self'"],
+                scriptSrc: ["'self'", "'unsafe-inline'", "https://todo-three-omega-96.vercel.app"],
+                styleSrc: ["'self'", "'unsafe-inline'", "https://fonts.googleapis.com"],
+                imgSrc: ["'self'", "data:", "https://todo-three-omega-96.vercel.app"],
+                fontSrc: ["'self'", "https://fonts.gstatic.com"],
+                connectSrc: ["'self'", "https://todoapp1.up.railway.app"],
+            },
+        },
     })
 );
 
