@@ -13,15 +13,22 @@ const helmet = require("helmet");
 const app = express();
 const PORT = process.env.PORT || 5173;
 
-app.use(
-  cors({
-    origin: ["http://localhost:5174", "https://todoabdullah.vercel.app"],
-    credentials: true,
-    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-    allowedHeaders: ["Content-Type", "Authorization"],
-  })
-);
-app.options("*", cors());
+
+const corsOptions = {
+  origin: ["http://localhost:5174", "https://todoabdullah.vercel.app"],
+  credentials: true,
+  methods: ["GET", "POST", "PUT", "DELETE"],
+  allowedHeaders: ["Content-Type", "Authorization"],
+};
+
+app.use(cors(corsOptions));
+app.options("*", cors(corsOptions));
+
+app.use((req, res, next) => {
+    console.log(`Incoming request: ${req.method} ${req.url}`);
+    next();
+});
+
 app.use(helmet());
 
 
@@ -33,6 +40,7 @@ console.log(mongourl);
 mongoose.connect(mongourl)
 .then(() => console.log("✅ MongoDB Connected"))
 .catch((err) => console.error("❌ MongoDB Error:", err));
+
 
 const islogged = async (req, res, next) => {
     if (req.headers.authorization !== undefined && req.headers.authorization !== null && req.headers.authorization !== "null" && req.headers.authorization !== "undefined" && req.headers.authorization !== "" ) {
@@ -52,10 +60,7 @@ const islogged = async (req, res, next) => {
         }
     }
 }
-app.use((req, res, next) => {
-    console.log(`Incoming request: ${req.method} ${req.url}`);
-    next();
-});
+
  // Handles preflight
  app.use((req, res, next) => {
    console.log("REQ METHOD:", req.method);
