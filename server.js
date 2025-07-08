@@ -20,7 +20,7 @@ app.use((req, res, next) => {
     console.log(`Incoming request: ${req.method} ${req.url}`);
     next();
 });
-
+// https://todoapp1.up.railway.app/googleLogin
 app.use(cors({
     origin: "https://todoapp1.up.railway.app",
     allowedHeaders: ["Content-Type", "Authorization"],
@@ -57,8 +57,6 @@ const islogged = async (req, res, next) => {
         }
     }
 }
-
- // Handles preflight
  app.use((req, res, next) => {
    console.log("REQ METHOD:", req.method);
    console.log("REQ PATH:", req.path);
