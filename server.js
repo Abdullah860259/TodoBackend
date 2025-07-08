@@ -24,7 +24,13 @@ const corsOptions = {
 
 app.use(cors(corsOptions));
 // app.options("/*", cors(corsOptions));
-
+app.use((req, res, next) => {
+  if (req.method === "OPTIONS") {
+    res.sendStatus(200);
+  } else {
+    next();
+  }
+});
 app.use((req, res, next) => {
     console.log(`Incoming request: ${req.method} ${req.url}`);
     next();
