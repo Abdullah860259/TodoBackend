@@ -21,18 +21,12 @@ app.use((req, res, next) => {
     next();
 });
 
-app.use(cors());
-// app.options("/*", cors(corsOptions));
-app.use((req, res, next) => {
-  if (req.method === "OPTIONS") {
-    req.headers["access-control-allow-origin"] = "*";
-    req.headers["access-control-allow-methods"] = "GET, POST, PUT, DELETE, OPTIONS";
-    req.headers["access-control-allow-headers"] = "Content-Type, Authorization";
-    res.sendStatus(200);
-  } else {  
-    next();
-  }
-});
+app.use(cors({
+    origin: "https://todoapp1.up.railway.app",
+    allowedHeaders: ["Content-Type", "Authorization"],
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    credentials: true,
+}));
 
 app.use(helmet());
 app.use(cookieParser());
