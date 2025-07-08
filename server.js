@@ -19,10 +19,11 @@ const corsOptions = {
   credentials: true,
   methods: ["GET", "POST", "PUT", "DELETE"],
   allowedHeaders: ["Content-Type", "Authorization"],
+  optionsSuccessStatus: 204,
 };
 
 app.use(cors(corsOptions));
-app.options("*", cors(corsOptions));
+// app.options("/*", cors(corsOptions));
 
 app.use((req, res, next) => {
     console.log(`Incoming request: ${req.method} ${req.url}`);
