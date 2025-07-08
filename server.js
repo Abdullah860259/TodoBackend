@@ -25,15 +25,16 @@ app.use(cors());
 // app.options("/*", cors(corsOptions));
 app.use((req, res, next) => {
   if (req.method === "OPTIONS") {
+    req.headers["access-control-allow-origin"] = "*";
+    req.headers["access-control-allow-methods"] = "GET, POST, PUT, DELETE, OPTIONS";
+    req.headers["access-control-allow-headers"] = "Content-Type, Authorization";
     res.sendStatus(200);
-  } else {
+  } else {  
     next();
   }
 });
 
 app.use(helmet());
-
-
 app.use(cookieParser());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
