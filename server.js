@@ -11,6 +11,7 @@ const Task = require("./models/taskSchems");
 const cookieParser = require("cookie-parser");
 const helmet = require("helmet");
 const app = express();
+const PORT = process.env.PORT || 5173;
 
 app.use(
   cors({
@@ -59,7 +60,9 @@ app.use(cookieParser());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-
+app.get("/", (req, res) => {
+  res.send("✅ Backend is alive!");
+});
 
 app.post("/register", async (req, res) => {
     let curUser = await User.findOne({ email: req.body.email });
@@ -214,7 +217,6 @@ app.post("/important/:id", islogged, async (req, res) => {
         console.error(error);
     }
 })
-const PORT = process.env.PORT || 5173;
 app.listen(PORT, '0.0.0.0', () => {
-    console.log(`Server running on port ${PORT}`);
+    console.log(`🚀 Server running on port ${PORT}`);
 });
