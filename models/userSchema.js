@@ -1,13 +1,7 @@
-require("dotenv").config();
 const mongoose = require("mongoose")
 const { Schema } = mongoose;
 const mongourl = process.env.MONGO_URL;
 console.log(mongourl);
-
-mongoose.connect(mongourl)
-.then(() => console.log("✅ MongoDB Connected"))
-.catch((err) => console.error("❌ MongoDB Error:", err));
-
 
 
 const userSchema = new Schema({

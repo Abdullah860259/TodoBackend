@@ -1,5 +1,7 @@
 const dotenv = require("dotenv").config();
 const cors = require("cors");
+const mongoose = require("mongoose");
+const mongourl = process.env.MONGO_URL; 
 const jwtSecret = process.env.JWT_SECRET;
 const express = require("express");
 const User = require("./models/userSchema");
@@ -9,6 +11,21 @@ const Task = require("./models/taskSchems");
 const cookieParser = require("cookie-parser");
 const helmet = require("helmet");
 const app = express();
+
+app.use(
+  cors({
+    origin: ["http://localhost:5174", "https://todoabdullah.vercel.app"],
+    credentials: true,
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    allowedHeaders: ["Content-Type", "Authorization"],
+  })
+);
+
+console.log(mongourl);
+
+mongoose.connect(mongourl)
+.then(() => console.log("✅ MongoDB Connected"))
+.catch((err) => console.error("❌ MongoDB Error:", err));
 
 const islogged = async (req, res, next) => {
     if (req.headers.authorization !== undefined && req.headers.authorization !== null && req.headers.authorization !== "null" && req.headers.authorization !== "undefined" && req.headers.authorization !== "" ) {
@@ -32,14 +49,6 @@ app.use((req, res, next) => {
     console.log(`Incoming request: ${req.method} ${req.url}`);
     next();
 });
-app.use(
-    cors({
-        origin: ["http://localhost:5174", "https://todoabdullah.vercel.app"],
-        credentials: true,
-        methods: ["GET", "POST", "PUT", "DELETE"],
-        allowedHeaders: ["Content-Type", "Authorization"],
-    })
-);
  // Handles preflight
 
 
