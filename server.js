@@ -11,7 +11,7 @@ const helmet = require("helmet");
 const app = express();
 
 const islogged = async (req, res, next) => {
-    if (req.headers.authorization !== undefined && req.headers.authorization !== null && req.headers.authorization !== "null" && req.headers.authorization !== "undefined" && req.headers.authorization !== "") {
+    if (req.headers.authorization !== undefined && req.headers.authorization !== null && req.headers.authorization !== "null" && req.headers.authorization !== "undefined" && req.headers.authorization !== "" ) {
         let info = JSON.parse(req.headers.authorization);
         let user = await User.findOne({ email: info.data.email });
         req.Userid = user.id;
@@ -40,7 +40,7 @@ app.use(
         allowedHeaders: ["Content-Type", "Authorization"],
     })
 );
-app.options("*", cors()); // Handles preflight
+ // Handles preflight
 
 
 app.use(helmet());
