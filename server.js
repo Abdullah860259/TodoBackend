@@ -11,7 +11,7 @@ const jwt = require("jsonwebtoken");
 const Task = require("./models/taskSchems");
 const cookieParser = require("cookie-parser");
 const helmet = require("helmet");
-const PORT = process.env.PORT || 5173;
+const PORT = process.env.PORT || 8080;
 const app = express();
 
 
