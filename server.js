@@ -21,8 +21,9 @@ app.use((req, res, next) => {
     next();
 });
 // https://todoapp1.up.railway.app/googleLogin
+// https://todo-backend-brown-three.vercel.app/
 app.use(cors({
-    origin: "https://todo-backend-brown-three.vercel.app",
+    origin: "https://todoabdullah.vercel.app",
     allowedHeaders: ["Content-Type", "Authorization"],
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     credentials: true,
