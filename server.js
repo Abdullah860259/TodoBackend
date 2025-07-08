@@ -17,11 +17,17 @@ app.use(
   cors({
     origin: ["http://localhost:5174", "https://todoabdullah.vercel.app"],
     credentials: true,
-    methods: ["GET", "POST", "PUT", "DELETE"],
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization"],
   })
 );
+app.options("*", cors());
+app.use(helmet());
 
+
+app.use(cookieParser());
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 console.log(mongourl);
 
 mongoose.connect(mongourl)
@@ -51,14 +57,12 @@ app.use((req, res, next) => {
     next();
 });
  // Handles preflight
+ app.use((req, res, next) => {
+   console.log("REQ METHOD:", req.method);
+   console.log("REQ PATH:", req.path);
+   next();
+ });
 
-
-app.use(helmet());
-
-
-app.use(cookieParser());
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
 
 app.get("/", (req, res) => {
   res.send("✅ Backend is alive!");
