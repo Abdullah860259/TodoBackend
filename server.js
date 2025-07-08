@@ -11,8 +11,8 @@ const jwt = require("jsonwebtoken");
 const Task = require("./models/taskSchems");
 const cookieParser = require("cookie-parser");
 const helmet = require("helmet");
-const app = express();
 const PORT = process.env.PORT || 5173;
+const app = express();
 
 
 const corsOptions = {
@@ -22,6 +22,10 @@ const corsOptions = {
   allowedHeaders: ["Content-Type", "Authorization"],
   optionsSuccessStatus: 200,
 };
+app.use((req, res, next) => {
+    console.log(`Incoming request: ${req.method} ${req.url}`);
+    next();
+});
 
 app.use(cors(corsOptions));
 // app.options("/*", cors(corsOptions));
@@ -31,10 +35,6 @@ app.use((req, res, next) => {
   } else {
     next();
   }
-});
-app.use((req, res, next) => {
-    console.log(`Incoming request: ${req.method} ${req.url}`);
-    next();
 });
 
 app.use(helmet());
