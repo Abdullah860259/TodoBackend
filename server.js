@@ -17,9 +17,9 @@ const PORT = process.env.PORT || 5173;
 const corsOptions = {
   origin: ["http://localhost:5174", "https://todoabdullah.vercel.app"],
   credentials: true,
-  methods: ["GET", "POST", "PUT", "DELETE"],
+  methods: ["GET", "POST", "PUT", "DELETE","OPTIONS"],
   allowedHeaders: ["Content-Type", "Authorization"],
-  optionsSuccessStatus: 204,
+  optionsSuccessStatus: 200,
 };
 
 app.use(cors(corsOptions));
